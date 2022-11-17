@@ -1,0 +1,184 @@
+<Meta title="Theme/Documentation" />
+
+## About
+
+Utilities that help you create your own theming system in few easy steps.
+You can use it to customize colors.
+
+### Usage
+
+wrap your code in `ThemeProvider` component
+
+```js
+<ThemeProvider :theme="theme">
+  <Button />
+</ThemeProvider>
+```
+
+##### Props
+
+-`theme` - your theme object
+
+```js
+theme = {
+  primary: string, // Your primary color
+  success: string, // Your success color
+  warning: string, // Your warning color
+  info: string, // Your info color
+  error: string, // Your error color
+  danger: string, // Your danger color
+};
+```
+
+##### ThemeProvider component
+
+-ThemeProvider component
+
+```js
+<template>
+  <div :style="style.objectStyle">
+    <slot> </slot>
+
+  </div>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent } from 'vue';
+
+type ITheme = {
+  primary?: string,
+  success?: string,
+  warning?: string,
+  info?: string,
+  error?: string,
+  danger?: string,
+}
+export default defineComponent({
+  props: {
+    theme: {
+      type: Object as () => ITheme,
+      default() { return {}; },
+    },
+  },
+  setup(props) {
+    /* Function to Mix Color  */
+    const mixColor = (hexColorStart: any, hexColorEnd: string, percent: number) => {
+      const toRgb = (x: string) => {
+        const i = parseInt(x.toString().replace('#', ''), 16);
+        return {
+          // eslint-disable-next-line no-bitwise
+          r: (i >> 16) & 255,
+          // eslint-disable-next-line no-bitwise
+          g: (i >> 8) & 255,
+          // eslint-disable-next-line no-bitwise
+          b: i & 255,
+        };
+      };
+      const rgbStart = toRgb(hexColorStart);
+      const rgbEnd = toRgb(hexColorEnd);
+      const deltaRgb = {
+        r: ((rgbEnd.r - rgbStart.r) / 100) * percent,
+        g: ((rgbEnd.g - rgbStart.g) / 100) * percent,
+        b: ((rgbEnd.b - rgbStart.b) / 100) * percent,
+      };
+      const resultRgb = {
+        r: Math.round(rgbStart.r + deltaRgb.r),
+        g: Math.round(rgbStart.g + deltaRgb.g),
+        b: Math.round(rgbStart.b + deltaRgb.b),
+      };
+      return `#${resultRgb.r < 16 ? '0' : ''}${resultRgb.r.toString(16)}${
+        resultRgb.g < 16 ? '0' : ''
+      }${resultRgb.g.toString(16)}${
+        resultRgb.b < 16 ? '0' : ''
+      }${resultRgb.b.toString(16)}`;
+    };
+    const style = computed(() => {
+      const objectStyle:any = {};
+      const types = ['primary', 'success', 'warning', 'info', 'error', 'danger'];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const type of types) {
+        if (props.theme[type]) {
+          objectStyle[`--el-color-${type}`] = props.theme[type];
+          for (let i = 1; i < 10; i++) {
+            objectStyle[`--el-color-${type}-light-${i}`] = mixColor(props.theme[type], '#ffffff', i * 10);
+            if (type === 'primary') {
+              objectStyle[`--el-color-${type}-dark-${i}`] = mixColor(props.theme[type], '#000000', i * 10);
+            }
+          }
+        }
+      }
+      return {
+        objectStyle,
+      };
+    });
+    return { style };
+  },
+});
+</script>
+
+```
+
+
+
+
+##### SocialMediaPost component
+
+
+-SocialMediaPost component
+
+```js
+<template>
+ 
+  <SocialMediaPost :socialMediaData="SocialMediaPostData" :theme="theme" />
+
+</template>
+
+<script lang="ts">
+
+import { defineComponent } from "vue";
+   /// import component from package
+import { SocialMediaPost } from '@tekab-dev-team/storybook-devfactory';
+    // import styles 
+import '@tekab-dev-team/storybook-devfactory/theme/style.css';
+
+import { ref} from 'vue'
+export default defineComponent({
+  components: {SocialMediaPost},
+  setup() {
+         // the SopcialMediaPost component take data from Object as shown in the exemple below
+    const SocialMediaPostData = ref({
+      posterAvatarImg: 'ex: poster/img/path',
+      posterName: 'Google',
+      postedSince: Date.now(),
+      postDescription: 'Lorem ipsum dolor sit amet consectetur adipisicing elit, Placeat et quos velit non ullam ratione repellat molestias praesentium excepturi ,architecto voluptate alias accusantium molestiae, Reprehenderit!',
+      postMedia: {
+        src: 'ex : post/media/path', // image or video
+        type: 'image', // accept also type video
+      },
+      postLikes: 300,
+      postComments: 100,
+      postShares: 70,
+      handleSave: () => console.log('i save'),
+      handleLike: () => console.log('i like'),
+      handleComment: () => console.log('i comment'),
+      handleShare: () => console.log('i share'),
+      handleSend: () => console.log('i send'),
+
+    });
+       // you can also use the following theme object to specifie colors 
+    const theme = ref({
+      primary: "#B8255F", // Your primary color
+      success: "#7ECC49", // Your success color
+      warning: "#B8255F", // Your warning color
+      info: "#96C3EB", // Your info color
+      error: "#96C3EB", // Your error color
+      danger: "#96C3EB", // Your danger color
+      background: "black", // Your background color
+      color: "#ffffff",  // Your text color 
+    });
+    return {SocialMediaPostData , theme}
+  },
+});
+</script>
+
+```

@@ -1,0 +1,13 @@
+{
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "clean:all": "yarn clean:node-modules",
+        "clean:node-modules": "rimraf node_modules packages/*/node_modules",
+        "format": "prettier --write --ignore-path .gitignore packages/**",
+        "start": "yarn workspace @my/app run dev",
+        "storybook": "yarn workspace @tekab-dev-team/storybook-devfactory run storybook"
+    }
+}

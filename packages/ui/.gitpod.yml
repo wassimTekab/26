@@ -1,0 +1,22 @@
+vscode:
+  extensions:
+    - "johnsoncodehk.volar"
+    - "johnsoncodehk.vscode-typescript-vue-plugin"
+    - "dbaeumer.vscode-eslint"
+    - "esbenp.prettier-vscode"
+    - "ms-azuretools.vscode-docker"
+    - "eamodio.gitlens"
+tasks:
+  - init: yarn --check-files
+  - command: yarn run storybook
+gitConfig:
+  pull.rebase: "false"
+ports:
+  - port: 6006
+    visibility: public
+    onOpen: "open-preview"
+github:
+  prebuilds:
+    pullRequests: true
+    addBadge: true
+    master: true

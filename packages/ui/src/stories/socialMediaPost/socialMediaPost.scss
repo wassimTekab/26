@@ -1,0 +1,67 @@
+.socialMediCard {
+  width: 300px;
+  border: none;
+  .card-header {
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .card-header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      .card-header-info-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        h3 {
+          margin: 2px 0;
+        }
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .card-content {
+    margin: 10px 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    p {
+      font-size: 14px;
+    }
+    .see-more {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      margin-left: auto;
+      padding: 7px 0;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .card-content-stats {
+      display: flex;
+      gap: 10px ;
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-around;
+    .card-footer-item {
+      display: flex;
+      align-items: center;
+      margin: 13px 0;
+      cursor: pointer;
+    }
+  }
+  .overflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

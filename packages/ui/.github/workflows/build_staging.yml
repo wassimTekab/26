@@ -1,0 +1,28 @@
+name: Build and Deploy Staging
+on:
+# Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ develop ]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: clone and run the project
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |  
+          git clone git@github.com:${{ github.repository }}.git 2> /dev/null ||  ( cd ${{ github.event.repository.name }} ; git pull )
+          pwd
+          cd ${{ github.event.repository.name }}
+          docker-compose --profile prod build
+          docker-compose --profile prod up -d

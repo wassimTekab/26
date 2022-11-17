@@ -1,0 +1,4 @@
+{
+    "welcome": "Bonjour!",
+    "profile": { "firstName": "Prénom", "lastName": "Nom" }
+}

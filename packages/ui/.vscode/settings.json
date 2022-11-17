@@ -1,0 +1,18 @@
+{
+  "terminal.integrated.defaultProfile.linux": "fish",
+  "eslint.format.enable": true,
+  "editor.defaultFormatter":"esbenp.prettier-vscode",
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "vetur.validation.template": false
+}
